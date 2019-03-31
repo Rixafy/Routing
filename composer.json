@@ -1,0 +1,14 @@
+{
+    "name": "rixafy/routing",
+    "description": "Routing handling and saving routes to DB",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rick Strafy",
+            "email": "rixafy@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
