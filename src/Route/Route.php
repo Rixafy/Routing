@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Rixafy\Blog;
 
 use Doctrine\ORM\Mapping as ORM;
-use Rixafy\Doctrination\Annotation\Translatable;
-use Rixafy\Doctrination\EntityTranslator;
 use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
@@ -14,75 +12,50 @@ use Rixafy\DoctrineTraits\UniqueTrait;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="blog")
+ * @ORM\Table(name="route")
  */
-class Blog extends EntityTranslator
+class Route
 {
     use UniqueTrait;
     use ActiveTrait;
     use DateTimeTrait;
 
     /**
-     * @Translatable
+     * @ORM\Column(type="string", length=255)
      * @var string
      */
     protected $name;
 
     /**
-     * @Translatable
-     * @var string
+     * @ORM\Column(type="uuid_binary", unique=true)
+     * @var \Ramsey\Uuid\UuidInterface
      */
-    protected $title;
+    protected $target;
 
     /**
-     * @Translatable
-     * @var string
+     * @ORM\Column(type="json", unique=true)
+     * @var array
      */
-    protected $description;
+    protected $parameters;
 
     /**
-     * @Translatable
-     * @var string
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Doctrination\Language\Language")
+     * @var \Rixafy\Doctrination\Language\Language
      */
-    protected $keywords;
+    private $language;
 
     /**
-     * One Blog has Many BlogCategories
-     *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogCategory\BlogCategory", mappedBy="blog", cascade={"persist", "remove"})
-     * @var BlogCategory[]
+     * Route constructor.
+     * @param string $name
+     * @param \Ramsey\Uuid\UuidInterface $target
+     * @param array $parameters
+     * @param \Rixafy\Doctrination\Language\Language $language
      */
-    private $categories;
-
-    /**
-     * One Blog has Many BlogPosts
-     *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPost\BlogPost", mappedBy="blog", cascade={"persist", "remove"})
-     * @var BlogPost[]
-     */
-    private $posts;
-
-    /**
-     * One Blog has Many BlogTags
-     *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogTag\BlogTag", mappedBy="blog", cascade={"persist", "remove"})
-     * @var BlogTag[]
-     */
-    private $tags;
-
-    /**
-     * One Blog has Many BlogPublishers
-     *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogPublisher\BlogPublisher", mappedBy="blog", cascade={"persist", "remove"})
-     * @var BlogPublisher[]
-     */
-    private $publishers;
-
-    /**
-     * One Blog has Many Translations
-     *
-     * @ORM\OneToMany(targetEntity="\Rixafy\Blog\BlogTranslation", mappedBy="entity", cascade={"persist", "remove"})
-     * @var BlogTranslation[]
-     */
-    protected $translations;
+    public function __construct(string $name, \Ramsey\Uuid\UuidInterface $target, array $parameters = [], \Rixafy\Doctrination\Language\Language $language = null)
+    {
+        $this->name = $name;
+        $this->target = $target;
+        $this->parameters = $parameters;
+        $this->language = $language;
+    }
 }
