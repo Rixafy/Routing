@@ -25,6 +25,11 @@ class Route
      * @var string
      */
     protected $name;
+    /**
+     * @ORM\Column(type="string", length=31)
+     * @var string
+     */
+    protected $controller;
 
     /**
      * @ORM\Column(type="uuid_binary", unique=true)
@@ -44,9 +49,10 @@ class Route
      */
     private $language;
 
-    public function __construct(string $name, \Ramsey\Uuid\UuidInterface $target, array $parameters = [], \Rixafy\Doctrination\Language\Language $language = null)
+    public function __construct(string $name, string $controller, \Ramsey\Uuid\UuidInterface $target, array $parameters = [], \Rixafy\Doctrination\Language\Language $language = null)
     {
         $this->name = $name;
+        $this->controller = $controller;
         $this->target = $target;
         $this->parameters = $parameters;
         $this->language = $language;
@@ -58,6 +64,14 @@ class Route
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getController(): string
+    {
+        return $this->controller;
     }
 
     /**
