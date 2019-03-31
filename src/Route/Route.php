@@ -44,18 +44,43 @@ class Route
      */
     private $language;
 
-    /**
-     * Route constructor.
-     * @param string $name
-     * @param \Ramsey\Uuid\UuidInterface $target
-     * @param array $parameters
-     * @param \Rixafy\Doctrination\Language\Language $language
-     */
     public function __construct(string $name, \Ramsey\Uuid\UuidInterface $target, array $parameters = [], \Rixafy\Doctrination\Language\Language $language = null)
     {
         $this->name = $name;
         $this->target = $target;
         $this->parameters = $parameters;
         $this->language = $language;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return \Ramsey\Uuid\UuidInterface
+     */
+    public function getTarget(): \Ramsey\Uuid\UuidInterface
+    {
+        return $this->target;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParameters(): array
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * @return \Rixafy\Doctrination\Language\Language
+     */
+    public function getLanguage(): \Rixafy\Doctrination\Language\Language
+    {
+        return $this->language;
     }
 }
