@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Rixafy\Routing\Route;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\UuidInterface;
+use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
@@ -33,7 +35,7 @@ class Route
 
     /**
      * @ORM\Column(type="uuid_binary", unique=true)
-     * @var \Ramsey\Uuid\UuidInterface
+     * @var UuidInterface
      */
     protected $target;
 
@@ -45,17 +47,17 @@ class Route
 
     /**
      * @ORM\ManyToOne(targetEntity="\Rixafy\Doctrination\Language\Language")
-     * @var \Rixafy\Doctrination\Language\Language
+     * @var Language
      */
     private $language;
 
-    public function __construct(string $name, string $controller, \Ramsey\Uuid\UuidInterface $target, array $parameters = [], \Rixafy\Doctrination\Language\Language $language = null)
+    public function __construct(RouteData $routeData)
     {
-        $this->name = $name;
-        $this->controller = $controller;
-        $this->target = $target;
-        $this->parameters = $parameters;
-        $this->language = $language;
+        $this->name = $routeData->name;
+        $this->controller = $routeData->controller;
+        $this->target = $routeData->target;
+        $this->parameters = $routeData->parameters;
+        $this->language = $routeData->language;
     }
 
     /**
@@ -75,9 +77,9 @@ class Route
     }
 
     /**
-     * @return \Ramsey\Uuid\UuidInterface
+     * @return UuidInterface
      */
-    public function getTarget(): \Ramsey\Uuid\UuidInterface
+    public function getTarget(): UuidInterface
     {
         return $this->target;
     }
@@ -91,9 +93,9 @@ class Route
     }
 
     /**
-     * @return \Rixafy\Doctrination\Language\Language
+     * @return Language
      */
-    public function getLanguage(): \Rixafy\Doctrination\Language\Language
+    public function getLanguage(): Language
     {
         return $this->language;
     }
