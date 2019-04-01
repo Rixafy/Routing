@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Rixafy\Routing\Route;
 
-use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
 
 class RouteRepository
@@ -18,7 +18,7 @@ class RouteRepository
         $this->entityManager = $entityManager;
     }
 
-    public function getRepository(): ObjectRepository
+    public function getRepository()
     {
         return $this->entityManager->getRepository(Route::class);
     }
@@ -40,5 +40,15 @@ class RouteRepository
         }
 
         return $route;
+    }
+
+    public function getAll(): array
+    {
+        return $this->getQueryBuilderForAll()->getQuery()->getResult();
+    }
+
+    public function getQueryBuilderForAll(): QueryBuilder
+    {
+        return $this->getRepository()->createQueryBuilder('r');
     }
 }
