@@ -27,6 +27,7 @@ class Route
      * @var string
      */
     protected $name;
+
     /**
      * @ORM\Column(type="string", length=31)
      * @var string
