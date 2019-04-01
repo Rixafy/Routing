@@ -28,7 +28,7 @@ class RouteRepository
      * @return Route
      * @throws RouteNotFoundException
      */
-    public function getById(UuidInterface $id): Route
+    public function get(UuidInterface $id): Route
     {
         /** @var Route $route */
         $route = $this->getRepository()->findOneBy([
