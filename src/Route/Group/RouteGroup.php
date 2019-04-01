@@ -22,6 +22,16 @@ class RouteGroup
      */
     protected $name;
 
+    public function __construct(RouteGroupData $routeGroupData)
+    {
+        $this->edit($routeGroupData);
+    }
+
+    public function edit(RouteGroupData $routeGroupData): void
+    {
+        $this->name = $routeGroupData->name;
+    }
+
     /**
      * @return string
      */
