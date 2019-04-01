@@ -10,6 +10,7 @@ use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
+use Rixafy\Routing\Route\Group\RouteGroup;
 
 /**
  * @ORM\Entity
@@ -52,12 +53,19 @@ class Route
      */
     private $language;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Routing\Route\Group\RouteGroup")
+     * @var RouteGroup
+     */
+    private $group;
+
     public function __construct(RouteData $routeData)
     {
         $this->controller = $routeData->controller;
         $this->target = $routeData->target;
         $this->parameters = $routeData->parameters;
         $this->language = $routeData->language;
+        $this->group = $routeData->group;
         $this->edit($routeData);
     }
 
@@ -104,5 +112,13 @@ class Route
     public function getLanguage(): Language
     {
         return $this->language;
+    }
+
+    /**
+     * @return Language
+     */
+    public function getGroup(): Language
+    {
+        return $this->group;
     }
 }
