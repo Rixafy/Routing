@@ -53,11 +53,16 @@ class Route
 
     public function __construct(RouteData $routeData)
     {
-        $this->name = $routeData->name;
         $this->controller = $routeData->controller;
         $this->target = $routeData->target;
         $this->parameters = $routeData->parameters;
         $this->language = $routeData->language;
+        $this->edit($routeData);
+    }
+
+    public function edit(RouteData $routeData): void
+    {
+        $this->name = $routeData->name;
     }
 
     /**

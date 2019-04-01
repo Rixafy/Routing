@@ -57,7 +57,7 @@ class RouteFacade
     public function edit(UuidInterface $id, RouteData $routeData): Route
     {
         $route = $this->routeRepository->get($id);
-        //TODO: Add edit method $route->edit($routeData);
+        $route->edit($routeData);
 
         $this->entityManager->flush();
 
