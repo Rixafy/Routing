@@ -114,10 +114,7 @@ class Route
         return $this->language;
     }
 
-    /**
-     * @return Language
-     */
-    public function getGroup(): Language
+    public function getGroup(): RouteGroup
     {
         return $this->group;
     }
