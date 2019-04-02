@@ -32,9 +32,6 @@ class RouteGroup
         $this->name = $routeGroupData->name;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
