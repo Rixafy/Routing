@@ -74,41 +74,26 @@ class Route
         $this->name = $routeData->name;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getController(): string
     {
         return $this->controller;
     }
 
-    /**
-     * @return UuidInterface
-     */
     public function getTarget(): UuidInterface
     {
         return $this->target;
     }
 
-    /**
-     * @return array
-     */
     public function getParameters(): array
     {
         return $this->parameters;
     }
 
-    /**
-     * @return Language
-     */
     public function getLanguage(): Language
     {
         return $this->language;
