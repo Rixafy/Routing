@@ -24,8 +24,6 @@ class RouteRepository
     }
 
     /**
-     * @param UuidInterface $id
-     * @return Route
      * @throws RouteNotFoundException
      */
     public function get(UuidInterface $id): Route

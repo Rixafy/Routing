@@ -24,8 +24,6 @@ class RouteGroupRepository
     }
 
     /**
-     * @param UuidInterface $id
-     * @return RouteGroup
      * @throws RouteGroupNotFoundException
      */
     public function get(UuidInterface $id): RouteGroup
@@ -43,8 +41,6 @@ class RouteGroupRepository
     }
 
     /**
-     * @param string $name
-     * @return RouteGroup
      * @throws RouteGroupNotFoundException
      */
     public function getByName(string $name): RouteGroup

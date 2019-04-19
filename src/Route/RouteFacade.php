@@ -18,12 +18,6 @@ class RouteFacade
     /** @var RouteFactory */
     private $routeFactory;
 
-    /**
-     * RouteFacade constructor.
-     * @param EntityManagerInterface $entityManager
-     * @param RouteRepository $routeRepository
-     * @param RouteFactory $routeFactory
-     */
     public function __construct(
         EntityManagerInterface $entityManager,
         RouteRepository $routeRepository,
@@ -34,10 +28,6 @@ class RouteFacade
         $this->routeFactory = $routeFactory;
     }
 
-    /**
-     * @param RouteData $routeData
-     * @return Route
-     */
     public function create(RouteData $routeData): Route
     {
         $route = $this->routeFactory->create($routeData);
@@ -49,9 +39,6 @@ class RouteFacade
     }
 
     /**
-     * @param UuidInterface $id
-     * @param RouteData $routeData
-     * @return Route
      * @throws RouteNotFoundException
      */
     public function edit(UuidInterface $id, RouteData $routeData): Route
@@ -65,7 +52,6 @@ class RouteFacade
     }
 
     /**
-     * @param UuidInterface $id
      * @throws RouteNotFoundException
      */
     public function remove(UuidInterface $id): void
@@ -77,8 +63,6 @@ class RouteFacade
     }
 
     /**
-     * @param UuidInterface $id
-     * @return Route
      * @throws RouteNotFoundException
      */
     public function get(UuidInterface $id): Route

@@ -18,12 +18,6 @@ class RouteGroupFacade
     /** @var RouteGroupFactory */
     private $routeGroupFactory;
 
-    /**
-     * RouteGroupFacade constructor.
-     * @param EntityManagerInterface $entityManager
-     * @param RouteGroupRepository $routeGroupRepository
-     * @param RouteGroupFactory $routeGroupFactory
-     */
     public function __construct(
         EntityManagerInterface $entityManager,
         RouteGroupRepository $routeGroupRepository,
@@ -34,10 +28,6 @@ class RouteGroupFacade
         $this->routeGroupFactory = $routeGroupFactory;
     }
 
-    /**
-     * @param RouteGroupData $routeGroupData
-     * @return RouteGroup
-     */
     public function create(RouteGroupData $routeGroupData): RouteGroup
     {
         $routeGroup = $this->routeGroupFactory->create($routeGroupData);
@@ -49,9 +39,6 @@ class RouteGroupFacade
     }
 
     /**
-     * @param UuidInterface $id
-     * @param RouteGroupData $routeGroupData
-     * @return RouteGroup
      * @throws RouteGroupNotFoundException
      */
     public function edit(UuidInterface $id, RouteGroupData $routeGroupData): RouteGroup
@@ -65,7 +52,6 @@ class RouteGroupFacade
     }
 
     /**
-     * @param UuidInterface $id
      * @throws RouteGroupNotFoundException
      */
     public function remove(UuidInterface $id): void
@@ -77,8 +63,6 @@ class RouteGroupFacade
     }
 
     /**
-     * @param UuidInterface $id
-     * @return RouteGroup
      * @throws RouteGroupNotFoundException
      */
     public function get(UuidInterface $id): RouteGroup
@@ -87,8 +71,6 @@ class RouteGroupFacade
     }
 
     /**
-     * @param string $name
-     * @return RouteGroup
      * @throws RouteGroupNotFoundException
      */
     public function getByName(string $name): RouteGroup
