@@ -36,7 +36,7 @@ class RouteRepository
         ]);
 
         if ($route === null) {
-            throw new RouteNotFoundException('Route with id "' . $id . '" not found.');
+            throw RouteNotFoundException::byId($id);
         }
 
         return $route;

@@ -36,7 +36,7 @@ class RouteGroupRepository
         ]);
 
         if ($routeGroup === null) {
-            throw new RouteGroupNotFoundException('RouteGroup with id "' . $id . '" not found.');
+            throw RouteGroupNotFoundException::byId($id);
         }
 
         return $routeGroup;
@@ -55,7 +55,7 @@ class RouteGroupRepository
         ]);
 
         if ($routeGroup === null) {
-            throw new RouteGroupNotFoundException('RouteGroup with name "' . $name . '" not found.');
+            throw RouteGroupNotFoundException::byName($name);
         }
 
         return $routeGroup;
