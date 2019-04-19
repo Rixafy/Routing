@@ -6,10 +6,10 @@ namespace Rixafy\Routing\Route;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
-use Rixafy\Doctrination\Language\Language;
 use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
+use Rixafy\Language\Language;
 use Rixafy\Routing\Route\Group\RouteGroup;
 
 /**
@@ -48,7 +48,7 @@ class Route
     protected $parameters;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Doctrination\Language\Language")
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Language\Language")
      * @var Language
      */
     private $language;

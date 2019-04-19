@@ -3,7 +3,7 @@
 namespace Rixafy\Routing\Route;
 
 use Ramsey\Uuid\UuidInterface;
-use Rixafy\Doctrination\Language\Language;
+use Rixafy\Language\Language;
 use Rixafy\Routing\Route\Group\RouteGroup;
 
 class RouteData
