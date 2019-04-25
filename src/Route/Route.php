@@ -65,6 +65,12 @@ class Route
      */
     private $group;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Routing\Route\Route")
+     * @var Route
+     */
+    private $newRoute;
+
     public function __construct(RouteData $routeData)
     {
         $this->controller = $routeData->controller;
@@ -122,5 +128,15 @@ class Route
 	public function getAction(): string
 	{
 		return $this->action;
+	}
+
+	public function getNewRoute(): Route
+	{
+		return $this->newRoute;
+	}
+
+	public function replace(Route $newRoute): void
+	{
+		$this->newRoute = $newRoute;
 	}
 }
