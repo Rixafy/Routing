@@ -15,7 +15,7 @@ class RouteData
     public $controller;
 
     /** @var string */
-    public $action;
+    public $action = 'default';
 
     /** @var UuidInterface */
     public $target;
