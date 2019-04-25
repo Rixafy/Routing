@@ -42,6 +42,12 @@ class Route
     protected $action;
 
     /**
+     * @ORM\Column(type="string", length=31)
+     * @var string
+     */
+    protected $module;
+
+    /**
      * @ORM\Column(type="uuid_binary", unique=true)
      * @var UuidInterface
      */
@@ -75,6 +81,7 @@ class Route
     {
         $this->controller = $routeData->controller;
         $this->action = $routeData->action;
+        $this->module = $routeData->module;
         $this->target = $routeData->target;
         $this->parameters = $routeData->parameters;
         $this->language = $routeData->language;
@@ -138,5 +145,10 @@ class Route
 	public function replace(Route $newRoute): void
 	{
 		$this->newRoute = $newRoute;
+	}
+
+	public function getModule(): string
+	{
+		return $this->module;
 	}
 }

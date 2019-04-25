@@ -17,6 +17,9 @@ class RouteData
     /** @var string */
     public $action = 'default';
 
+    /** @var string */
+    public $module = 'Front';
+
     /** @var UuidInterface */
     public $target;
 
