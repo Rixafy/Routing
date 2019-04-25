@@ -42,7 +42,7 @@ class Route
     protected $target;
 
     /**
-     * @ORM\Column(type="json", unique=true)
+     * @ORM\Column(type="json")
      * @var array
      */
     protected $parameters;
