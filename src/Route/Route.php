@@ -54,7 +54,7 @@ class Route
     protected $target;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json", nullable=true)
      * @var array
      */
     protected $parameters;
@@ -119,7 +119,7 @@ class Route
 
     public function getParameters(): array
     {
-        return $this->parameters;
+        return $this->parameters === null ? [] : $this->parameters;
     }
 
     public function getLanguage(): Language
