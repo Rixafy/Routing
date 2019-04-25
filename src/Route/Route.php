@@ -36,6 +36,12 @@ class Route
     protected $controller;
 
     /**
+     * @ORM\Column(type="string", length=31)
+     * @var string
+     */
+    protected $action;
+
+    /**
      * @ORM\Column(type="uuid_binary", unique=true)
      * @var UuidInterface
      */
@@ -62,6 +68,7 @@ class Route
     public function __construct(RouteData $routeData)
     {
         $this->controller = $routeData->controller;
+        $this->action = $routeData->action;
         $this->target = $routeData->target;
         $this->parameters = $routeData->parameters;
         $this->language = $routeData->language;
@@ -73,6 +80,14 @@ class Route
     {
         $this->name = $routeData->name;
     }
+
+    public function getData(): RouteData
+	{
+		$data = new RouteData();
+		$data->name = $this->name;
+
+		return $data;
+	}
 
     public function getName(): string
     {
@@ -103,4 +118,9 @@ class Route
     {
         return $this->group;
     }
+
+	public function getAction(): string
+	{
+		return $this->action;
+	}
 }

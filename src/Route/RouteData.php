@@ -14,6 +14,9 @@ class RouteData
     /** @var string */
     public $controller;
 
+    /** @var string */
+    public $action;
+
     /** @var UuidInterface */
     public $target;
 
