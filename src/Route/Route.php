@@ -54,6 +54,12 @@ class Route
     protected $target;
 
     /**
+     * @ORM\Column(type="array", nullable=true)
+     * @var array
+     */
+    protected $previous_names;
+
+    /**
      * @ORM\Column(type="json", nullable=true)
      * @var array
      */
@@ -134,5 +140,23 @@ class Route
 	public function getModule(): string
 	{
 		return $this->module;
+	}
+
+	public function getPreviousNames(): array
+	{
+		return $this->previous_names === null ? [] : $this->previous_names;
+	}
+
+	public function addPreviousName(string $name): void
+	{
+		if ($this->previous_names === null) {
+			$this->previous_names = [];
+		}
+
+		$this->previous_names[] = $name;
+
+		if (count($this->previous_names) > 3) {
+			array_shift($this->previous_names);
+		}
 	}
 }
