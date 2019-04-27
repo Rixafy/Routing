@@ -4,36 +4,56 @@ declare(strict_types=1);
 
 namespace Rixafy\Routing\Route;
 
+use Doctrine\ORM\EntityManagerInterface;
+
 class RouteResolver
 {
 	/** @var RouteFacade */
 	private $routeFacade;
 
-	public function __construct(RouteFacade $routeFacade)
-	{
+	/** @var RouteFactory */
+	private $routeFactory;
+
+	/** @var EntityManagerInterface */
+	private $entityManager;
+
+	public function __construct(
+		RouteFacade $routeFacade,
+		EntityManagerInterface $entityManager,
+		RouteFactory $routeFactory
+	) {
 		$this->routeFacade = $routeFacade;
+		$this->entityManager = $entityManager;
+		$this->routeFactory = $routeFactory;
 	}
 
+	/**
+	 * @throws DuplicateRouteException
+	 */
 	public function handle(RouteData $routeData): Route
 	{
-		//TODO: Finish handling
 		try {
-			$existing = $this->routeFacade->getByTarget($routeData->target, $routeData->group->getId());
+			$route = $this->routeFacade->getByTarget($routeData->target, $routeData->group->getId());
 
-			if ($existing->getName() === $routeData->name) {
-				return $existing;
+			if ($route->getName() === $routeData->name) {
+				return $route;
+
 			} else {
-
+				$route->addPreviousName($route->getName());
+				$route->edit($routeData);
 			}
+
 		} catch (RouteNotFoundException $e) {
 			try {
-				$existing = $this->routeFacade->getByName($routeData->name, $routeData->group->getId());
+				$this->routeFacade->getByName($routeData->name, $routeData->group->getId());
+				throw new DuplicateRouteException('Route "' . $routeData->name . '" already exists.');
 
-				if ($existing->getTarget() === $routeData->target) {
-					return $existing;
-				}
 			} catch (RouteNotFoundException $e) {
+				$route = $this->routeFacade->create($routeData);
+				$this->entityManager->persist($route);
 			}
 		}
+
+		return $route;
 	}
 }
