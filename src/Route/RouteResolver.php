@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Rixafy\Routing\Route;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Rixafy\Routing\Route\Exception\DuplicateRouteException;
+use Rixafy\Routing\Route\Exception\RouteNotFoundException;
 
 class RouteResolver
 {

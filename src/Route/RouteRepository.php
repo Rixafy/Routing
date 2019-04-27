@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
+use Rixafy\Routing\Route\Exception\RouteNotFoundException;
 
 class RouteRepository
 {

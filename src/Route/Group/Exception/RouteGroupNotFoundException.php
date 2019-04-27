@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Routing\Route\Group;
+namespace Rixafy\Routing\Route\Group\Exception;
 
 use Exception;
 use Ramsey\Uuid\UuidInterface;

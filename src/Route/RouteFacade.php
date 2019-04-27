@@ -6,6 +6,7 @@ namespace Rixafy\Routing\Route;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
+use Rixafy\Routing\Route\Exception\RouteNotFoundException;
 
 class RouteFacade
 {

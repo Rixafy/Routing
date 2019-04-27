@@ -7,6 +7,7 @@ namespace Rixafy\Routing\Route\Group;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
+use Rixafy\Routing\Route\Group\Exception\RouteGroupNotFoundException;
 
 class RouteGroupRepository
 {
