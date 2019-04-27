@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rixafy\Routing\Route;
 
 use Ramsey\Uuid\UuidInterface;

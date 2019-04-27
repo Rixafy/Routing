@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
-use Rixafy\Routing\Route\Group\RouteGroup;
 
 class RouteRepository
 {
@@ -60,6 +59,24 @@ class RouteRepository
 
         if ($route === null) {
             throw RouteNotFoundException::byName($name);
+        }
+
+        return $route;
+    }
+
+    /**
+     * @throws RouteNotFoundException
+     */
+    public function getByTarget(UuidInterface $targetId, UuidInterface $routeGroupId): Route
+    {
+        /** @var Route $route */
+        $route = $this->getRepository()->findOneBy([
+            'target' => $targetId,
+			'routeGroup' => $routeGroupId
+        ]);
+
+        if ($route === null) {
+            throw RouteNotFoundException::byTarget($targetId);
         }
 
         return $route;

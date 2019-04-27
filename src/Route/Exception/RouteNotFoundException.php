@@ -18,4 +18,9 @@ class RouteNotFoundException extends Exception
 	{
 		return new self('Route with name "' . $name . '" not found.');
 	}
+
+	public static function byTarget(UuidInterface $targetId): self
+	{
+		return new self('Route with target_id "' . $targetId . '" not found.');
+	}
 }

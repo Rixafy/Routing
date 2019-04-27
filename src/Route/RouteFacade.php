@@ -79,6 +79,14 @@ class RouteFacade
     }
 
     /**
+     * @throws RouteNotFoundException
+     */
+    public function getByTarget(UuidInterface $targetId, UuidInterface $routeGroupId): Route
+    {
+        return $this->routeRepository->getByTarget($targetId, $routeGroupId);
+    }
+
+    /**
 	 * @return Route[]
      */
     public function getAll(UuidInterface $routeGroupId): array
