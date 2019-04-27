@@ -36,7 +36,7 @@ class RouteRepository
         /** @var Route $route */
 		$route = $this->getRepository()->findOneBy([
 			'id' => $id,
-			'routeGroup' => $routeGroupId
+			'group' => $routeGroupId
 		]);
 
         if ($route === null) {
@@ -54,7 +54,7 @@ class RouteRepository
         /** @var Route $route */
         $route = $this->getRepository()->findOneBy([
             'name' => $name,
-			'routeGroup' => $routeGroupId
+			'group' => $routeGroupId
         ]);
 
         if ($route === null) {
@@ -72,7 +72,7 @@ class RouteRepository
         /** @var Route $route */
         $route = $this->getRepository()->findOneBy([
             'target' => $targetId,
-			'routeGroup' => $routeGroupId
+			'group' => $routeGroupId
         ]);
 
         if ($route === null) {
@@ -93,6 +93,6 @@ class RouteRepository
     public function getQueryBuilderForAll(UuidInterface $routeGroupId): QueryBuilder
     {
         return $this->getRepository()->createQueryBuilder('e')
-			->where('e.route_group = :routeGroup')->setParameter('routeGroup', $routeGroupId->getBytes());
+			->where('e.group = :routeGroup')->setParameter('routeGroup', $routeGroupId->getBytes());
     }
 }
