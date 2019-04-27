@@ -13,4 +13,9 @@ class RouteNotFoundException extends Exception
 	{
 		return new self('Route with id "' . $id . '" not found.');
 	}
+
+	public static function byName(string $name): self
+	{
+		return new self('Route with name "' . $name . '" not found.');
+	}
 }

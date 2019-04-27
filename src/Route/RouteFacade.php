@@ -41,9 +41,9 @@ class RouteFacade
     /**
      * @throws RouteNotFoundException
      */
-    public function edit(UuidInterface $id, RouteData $routeData): Route
+    public function edit(UuidInterface $id, UuidInterface $routeGroupId, RouteData $routeData): Route
     {
-        $route = $this->routeRepository->get($id);
+        $route = $this->routeRepository->get($id, $routeGroupId);
         $route->edit($routeData);
 
         $this->entityManager->flush();
@@ -54,9 +54,9 @@ class RouteFacade
     /**
      * @throws RouteNotFoundException
      */
-    public function remove(UuidInterface $id): void
+    public function remove(UuidInterface $id, UuidInterface $routeGroupId): void
     {
-        $route = $this->routeRepository->get($id);
+        $route = $this->routeRepository->get($id, $routeGroupId);
         $this->entityManager->remove($route);
 
         $this->entityManager->flush();
@@ -65,8 +65,24 @@ class RouteFacade
     /**
      * @throws RouteNotFoundException
      */
-    public function get(UuidInterface $id): Route
+    public function get(UuidInterface $id, UuidInterface $routeGroupId): Route
     {
-        return $this->routeRepository->get($id);
+        return $this->routeRepository->get($id, $routeGroupId);
+    }
+
+    /**
+     * @throws RouteNotFoundException
+     */
+    public function getByName(string $name, UuidInterface $routeGroupId): Route
+    {
+        return $this->routeRepository->getByName($name, $routeGroupId);
+    }
+
+    /**
+	 * @return Route[]
+     */
+    public function getAll(UuidInterface $routeGroupId): array
+    {
+        return $this->routeRepository->getAll($routeGroupId);
     }
 }
