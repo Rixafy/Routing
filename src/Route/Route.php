@@ -48,7 +48,7 @@ class Route
     protected $module;
 
     /**
-     * @ORM\Column(type="uuid_binary_ordered_time", unique=true)
+     * @ORM\Column(type="uuid_binary", unique=true)
      * @var UuidInterface
      */
     protected $target;
