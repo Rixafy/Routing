@@ -83,17 +83,26 @@ class RouteRepository
         return $route;
     }
 
-	/**
-	 * @return Route[]
-	 */
-    public function getAll(UuidInterface $routeGroupId): array
-    {
-        return $this->getQueryBuilderForAll($routeGroupId)->getQuery()->getResult();
-    }
-
-    public function getQueryBuilderForAll(UuidInterface $routeGroupId): QueryBuilder
+    public function getQueryBuilderForAll(UuidInterface $routeSiteId): QueryBuilder
     {
         return $this->getRepository()->createQueryBuilder('e')
-			->where('e.group = :routeGroup')->setParameter('routeGroup', $routeGroupId->getBytes());
+			->where('e.site = :routeSite')->setParameter('routeSite', $routeSiteId->getBytes());
     }
+
+    public function getQueryBuilderForAllInGroup(UuidInterface $routeGroupId, UuidInterface $routeSiteId): QueryBuilder
+    {
+        return $this->getQueryBuilderForAll($routeSiteId)
+			->andWhere('e.group = :routeGroup')->setParameter('routeGroup', $routeGroupId->getBytes());
+    }
+
+    public function getDuplicateCounter(string $routeName, UuidInterface $routeSiteId): int
+	{
+		$result = $this->getQueryBuilderForAll($routeSiteId)
+			->select('MAX(e.duplicate_counter) as duplicates')
+			->andWhere('e.name = :name')->setParameter('name', $routeName)
+			->getQuery()
+			->getArrayResult();
+
+		return (int) $result['duplicates'];
+	}
 }

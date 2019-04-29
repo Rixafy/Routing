@@ -87,11 +87,8 @@ class RouteFacade
         return $this->routeRepository->getByTarget($targetId, $routeGroupId);
     }
 
-    /**
-	 * @return Route[]
-     */
-    public function getAll(UuidInterface $routeGroupId): array
+    public function getDuplicateCounter(string $routeName, UuidInterface $routeSiteId): int
     {
-        return $this->routeRepository->getAll($routeGroupId);
+        return $this->routeRepository->getDuplicateCounter($routeName, $routeSiteId);
     }
 }

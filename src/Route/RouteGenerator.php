@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rixafy\Routing\Route;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Rixafy\Routing\Route\Exception\DuplicateRouteException;
 use Rixafy\Routing\Route\Exception\RouteNotFoundException;
 
 class RouteGenerator
@@ -29,24 +28,24 @@ class RouteGenerator
 		$this->routeFactory = $routeFactory;
 	}
 
-	/**
-	 * @throws DuplicateRouteException
-	 */
 	public function generate(RouteData $routeData): Route
 	{
 		try {
 			$route = $this->routeFacade->getByTarget($routeData->target, $routeData->group->getId());
+
+			if ($routeData->name !== $route->getName()) {
+				$duplicates = $this->routeFacade->getDuplicateCounter($routeData->name, $routeData->site->getId());
+				$route->increaseDuplicateCounter($duplicates);
+			}
+
 			$route->edit($routeData);
 
 		} catch (RouteNotFoundException $e) {
-			try {
-				$this->routeFacade->getByName($routeData->name, $routeData->group->getId());
-				throw new DuplicateRouteException('Route "' . $routeData->name . '" already exists.');
+			$route = $this->routeFactory->create($routeData);
+			$this->entityManager->persist($route);
 
-			} catch (RouteNotFoundException $e) {
-				$route = $this->routeFactory->create($routeData);
-				$this->entityManager->persist($route);
-			}
+			$duplicates = $this->routeFacade->getDuplicateCounter($routeData->name, $routeData->site->getId());
+			$route->increaseDuplicateCounter($duplicates);
 		}
 
 		return $route;

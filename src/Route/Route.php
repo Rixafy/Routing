@@ -16,7 +16,10 @@ use Rixafy\Routing\Route\Site\RouteSite;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="route")
+ * @ORM\Table(name="route", indexes={
+ *     @ORM\Index(columns={"name", "site_id"}),
+ *     @ORM\UniqueConstraint(columns={"group_id", "site_id"})
+ * })
  */
 class Route
 {
@@ -25,62 +28,68 @@ class Route
     use DateTimeTrait;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @var string
+     * @ORM\Column(type="string", length=255)
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="string", length=31)
      * @var string
+     * @ORM\Column(type="string", length=31)
      */
     protected $controller;
 
     /**
-     * @ORM\Column(type="string", length=31)
      * @var string
+     * @ORM\Column(type="string", length=31)
      */
     protected $action;
 
     /**
-     * @ORM\Column(type="string", length=31)
      * @var string
+     * @ORM\Column(type="string", length=31)
      */
     protected $module;
 
     /**
-     * @ORM\Column(type="uuid_binary", unique=true)
      * @var UuidInterface
+     * @ORM\Column(type="uuid_binary", unique=true)
      */
     protected $target;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
      * @var array
+     * @ORM\Column(type="array", nullable=true)
      */
     protected $previous_names;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
      * @var array
+     * @ORM\Column(type="array", nullable=true)
      */
     protected $parameters;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Language\Language")
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    protected $duplicate_counter = 0;
+
+    /**
      * @var Language
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Language\Language")
      */
     private $language;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Routing\Route\Group\RouteGroup")
      * @var RouteGroup
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Routing\Route\Group\RouteGroup")
      */
     private $group;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Routing\Route\Site\RouteSite")
      * @var RouteSite
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Routing\Route\Site\RouteSite")
      */
     private $site;
 
@@ -100,9 +109,9 @@ class Route
     public function edit(RouteData $data): void
     {
     	if ($this->name !== $data->name) {
-			$this->addPreviousName($this->name);
+			$this->addPreviousName();
+			$this->name = $data->name;
 		}
-        $this->name = $data->name;
     }
 
     public function getData(): RouteData
@@ -115,7 +124,7 @@ class Route
 
     public function getName(): string
     {
-        return $this->name;
+        return $this->name . ($this->duplicate_counter !== 0 ?? '-' . $this->duplicate_counter);
     }
 
     public function getController(): string
@@ -158,13 +167,13 @@ class Route
 		return $this->previous_names === null ? [] : $this->previous_names;
 	}
 
-	public function addPreviousName(string $name): void
+	public function addPreviousName(): void
 	{
 		if ($this->previous_names === null) {
 			$this->previous_names = [];
 		}
 
-		$this->previous_names[] = $name;
+		$this->previous_names[] = $this->getName();
 
 		if (count($this->previous_names) > 3) {
 			array_shift($this->previous_names);
@@ -174,5 +183,20 @@ class Route
 	public function getSite(): RouteSite
 	{
 		return $this->site;
+	}
+
+	public function getDuplicateCounter(): int
+	{
+		return $this->duplicate_counter;
+	}
+
+	public function increaseDuplicateCounter(int $increaseBy): void
+	{
+		$this->duplicate_counter += $increaseBy;
+	}
+
+	public function resetDuplicateCounter(): void
+	{
+		$this->duplicate_counter = 0;
 	}
 }
