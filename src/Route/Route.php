@@ -152,12 +152,12 @@ class Route
 
     public function getNameInSite(): string
     {
-        return $this->name . ($this->site_name_counter !== 1 ?? '-' . $this->site_name_counter);
+        return $this->name . ($this->site_name_counter !== 1 ? '-' . $this->site_name_counter : '');
     }
 
     public function getNameInGroup(): string
     {
-        return $this->name . ($this->group_name_counter !== 1 ?? '-' . $this->group_name_counter);
+        return $this->name . ($this->group_name_counter !== 1 ? '-' . $this->group_name_counter : '');
     }
 
     public function getController(): string
