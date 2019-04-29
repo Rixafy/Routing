@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rixafy\Routing\Route;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\DoctrineTraits\ActiveTrait;
@@ -24,8 +25,6 @@ use Rixafy\Routing\Route\Site\RouteSite;
 class Route
 {
     use UniqueTrait;
-    use ActiveTrait;
-    use DateTimeTrait;
 
     /**
      * @var string
@@ -105,7 +104,15 @@ class Route
      */
     private $site;
 
-    public function __construct(RouteData $data)
+	/**
+	 * @ORM\Column(type="datetime")
+	 * @var DateTime
+	 */
+	private $name_changed_at;
+
+	use DateTimeTrait;
+
+	public function __construct(RouteData $data)
     {
         $this->controller = $data->controller;
         $this->action = $data->action;
@@ -123,6 +130,7 @@ class Route
     	if ($this->name !== $data->name) {
 			$this->archiveName();
 			$this->name = $data->name;
+			$this->name_changed_at = new DateTime();
 		}
     }
 
