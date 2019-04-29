@@ -96,9 +96,9 @@ class RouteFacade
     /**
      * @throws RouteNotFoundException
      */
-    public function getByTarget(UuidInterface $targetId, UuidInterface $routeGroupId): Route
+    public function getByTarget(UuidInterface $targetId): Route
     {
-        return $this->routeRepository->getByTarget($targetId, $routeGroupId);
+        return $this->routeRepository->getByTarget($targetId);
     }
 
     public function getNameCounter(string $routeName, UuidInterface $siteId, UuidInterface $groupId = null): int

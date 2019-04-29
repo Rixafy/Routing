@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Routing\Route;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\UuidInterface;
 use Rixafy\Routing\Route\Exception\RouteNotFoundException;
 
 class RouteGenerator
@@ -31,26 +32,43 @@ class RouteGenerator
 	public function generate(RouteData $data): Route
 	{
 		try {
-			$route = $this->routeFacade->getByTarget($data->target, $data->group->getId());
-
-			if ($data->name !== $route->getNameInSite()) {
-				$route->edit($data);
-
-				$siteNameCount = $this->routeFacade->getNameCounter($data->name, $data->site->getId());
-				$route->increaseSiteNameCounter($siteNameCount);
-
-				$groupNameCount = $this->routeFacade->getNameCounter($data->name, $data->site->getId(), $data->group->getId());
-				$route->increaseGroupNameCounter($groupNameCount);
-			}
+			$route = $this->update($data->target, $data->name);
 
 		} catch (RouteNotFoundException $e) {
-			$route = $this->routeFactory->create($data);
-			$this->entityManager->persist($route);
+			$route = $this->create($data);
+		}
 
-			$siteNameCount = $this->routeFacade->getNameCounter($data->name, $data->site->getId());
+		return $route;
+	}
+
+	public function create(RouteData $data): Route
+	{
+		$route = $this->routeFactory->create($data);
+		$this->entityManager->persist($route);
+
+		$siteNameCount = $this->routeFacade->getNameCounter($data->name, $data->site->getId());
+		$route->increaseSiteNameCounter($siteNameCount);
+
+		$groupNameCount = $this->routeFacade->getNameCounter($data->name, $data->site->getId(), $data->group->getId());
+		$route->increaseGroupNameCounter($groupNameCount);
+
+		return $route;
+	}
+
+	/**
+	 * @throws RouteNotFoundException
+	 */
+	public function update(UuidInterface $targetId, string $name): Route
+	{
+		$route = $this->routeFacade->getByTarget($targetId);
+
+		if ($name !== $route->getName()) {
+			$route->changeName($name);
+
+			$siteNameCount = $this->routeFacade->getNameCounter($name, $route->getSite()->getId());
 			$route->increaseSiteNameCounter($siteNameCount);
 
-			$groupNameCount = $this->routeFacade->getNameCounter($data->name, $data->site->getId(), $data->group->getId());
+			$groupNameCount = $this->routeFacade->getNameCounter($name, $route->getSite()->getId(), $route->getGroup()->getId());
 			$route->increaseGroupNameCounter($groupNameCount);
 		}
 

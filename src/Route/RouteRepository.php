@@ -68,12 +68,11 @@ class RouteRepository
     /**
      * @throws RouteNotFoundException
      */
-    public function getByTarget(UuidInterface $targetId, UuidInterface $routeGroupId): Route
+    public function getByTarget(UuidInterface $targetId): Route
     {
         /** @var Route $route */
         $route = $this->getRepository()->findOneBy([
-            'target' => $targetId,
-			'group' => $routeGroupId
+            'target' => $targetId
         ]);
 
         if ($route === null) {

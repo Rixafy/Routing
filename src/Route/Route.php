@@ -7,7 +7,6 @@ namespace Rixafy\Routing\Route;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
-use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
 use Rixafy\Language\Language;
@@ -127,12 +126,17 @@ class Route
 
     public function edit(RouteData $data): void
     {
-    	if ($this->name !== $data->name) {
+    	$this->changeName($data->name);
+    }
+
+    public function changeName(string $newName): void
+	{
+		if ($this->name !== $newName) {
 			$this->archiveName();
-			$this->name = $data->name;
+			$this->name = $newName;
 			$this->name_changed_at = new DateTime();
 		}
-    }
+	}
 
     public function getData(): RouteData
 	{
@@ -140,6 +144,11 @@ class Route
 		$data->name = $this->name;
 
 		return $data;
+	}
+
+	public function getName(): string
+	{
+		return $this->name;
 	}
 
     public function getNameInSite(): string
