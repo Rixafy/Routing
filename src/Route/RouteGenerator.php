@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Rixafy\Routing\Route\Exception\DuplicateRouteException;
 use Rixafy\Routing\Route\Exception\RouteNotFoundException;
 
-class RouteResolver
+class RouteGenerator
 {
 	/** @var RouteFacade */
 	private $routeFacade;
@@ -32,14 +32,11 @@ class RouteResolver
 	/**
 	 * @throws DuplicateRouteException
 	 */
-	public function handle(RouteData $routeData): Route
+	public function generate(RouteData $routeData): Route
 	{
 		try {
 			$route = $this->routeFacade->getByTarget($routeData->target, $routeData->group->getId());
-
-			if ($route->getName() !== $routeData->name) {
-				$route->edit($routeData);
-			}
+			$route->edit($routeData);
 
 		} catch (RouteNotFoundException $e) {
 			try {
