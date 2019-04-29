@@ -48,7 +48,7 @@ class RouteResolver
 				throw new DuplicateRouteException('Route "' . $routeData->name . '" already exists.');
 
 			} catch (RouteNotFoundException $e) {
-				$route = $this->routeFacade->create($routeData);
+				$route = $this->routeFactory->create($routeData);
 				$this->entityManager->persist($route);
 			}
 		}
