@@ -34,8 +34,8 @@ class RouteGenerator
 			$route = $this->routeFacade->getByTarget($routeData->target, $routeData->group->getId());
 
 			if ($routeData->name !== $route->getName()) {
-				$duplicates = $this->routeFacade->getDuplicateCounter($routeData->name, $routeData->site->getId());
-				$route->increaseDuplicateCounter($duplicates);
+				$nameCount = $this->routeFacade->getNameCounter($routeData->name, $routeData->site->getId());
+				$route->increaseNameCounter($nameCount);
 			}
 
 			$route->edit($routeData);
@@ -44,8 +44,8 @@ class RouteGenerator
 			$route = $this->routeFactory->create($routeData);
 			$this->entityManager->persist($route);
 
-			$duplicates = $this->routeFacade->getDuplicateCounter($routeData->name, $routeData->site->getId());
-			$route->increaseDuplicateCounter($duplicates);
+			$nameCount = $this->routeFacade->getNameCounter($routeData->name, $routeData->site->getId());
+			$route->increaseNameCounter($nameCount);
 		}
 
 		return $route;

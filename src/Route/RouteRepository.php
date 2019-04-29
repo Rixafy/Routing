@@ -95,14 +95,14 @@ class RouteRepository
 			->andWhere('e.group = :routeGroup')->setParameter('routeGroup', $routeGroupId->getBytes());
     }
 
-    public function getDuplicateCounter(string $routeName, UuidInterface $routeSiteId): int
+    public function getNameCounter(string $routeName, UuidInterface $routeSiteId): int
 	{
 		$result = $this->getQueryBuilderForAll($routeSiteId)
-			->select('MAX(e.duplicate_counter) as duplicates')
+			->select('MAX(e.name_counter) as result_count')
 			->andWhere('e.name = :name')->setParameter('name', $routeName)
 			->getQuery()
 			->getArrayResult();
 
-		return (int) $result['duplicates'];
+		return (int) $result['result_count'];
 	}
 }

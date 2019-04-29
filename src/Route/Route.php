@@ -73,7 +73,7 @@ class Route
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $duplicate_counter = 0;
+    protected $name_counter = 1;
 
     /**
      * @var Language
@@ -124,7 +124,7 @@ class Route
 
     public function getName(): string
     {
-        return $this->name . ($this->duplicate_counter !== 0 ?? '-' . $this->duplicate_counter);
+        return $this->name . ($this->name_counter !== 0 ?? '-' . $this->name_counter);
     }
 
     public function getController(): string
@@ -185,18 +185,18 @@ class Route
 		return $this->site;
 	}
 
-	public function getDuplicateCounter(): int
+	public function getNameCounter(): int
 	{
-		return $this->duplicate_counter;
+		return $this->name_counter;
 	}
 
-	public function increaseDuplicateCounter(int $increaseBy): void
+	public function increaseNameCounter(int $increaseBy): void
 	{
-		$this->duplicate_counter += $increaseBy;
+		$this->name_counter += $increaseBy;
 	}
 
-	public function resetDuplicateCounter(): void
+	public function resetNameCounter(): void
 	{
-		$this->duplicate_counter = 0;
+		$this->name_counter = 0;
 	}
 }

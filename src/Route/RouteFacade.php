@@ -101,8 +101,8 @@ class RouteFacade
         return $this->routeRepository->getByTarget($targetId, $routeGroupId);
     }
 
-    public function getDuplicateCounter(string $routeName, UuidInterface $routeSiteId): int
+    public function getNameCounter(string $routeName, UuidInterface $routeSiteId): int
     {
-        return $this->routeRepository->getDuplicateCounter($routeName, $routeSiteId);
+        return $this->routeRepository->getNameCounter($routeName, $routeSiteId);
     }
 }
