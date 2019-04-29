@@ -58,13 +58,9 @@ class RouteGroupRepository
         return $routeGroup;
     }
 
-    public function getAll(): array
+    public function getQueryBuilderForAll(UuidInterface $routeSiteId): QueryBuilder
     {
-        return $this->getQueryBuilderForAll()->getQuery()->getResult();
-    }
-
-    public function getQueryBuilderForAll(): QueryBuilder
-    {
-        return $this->getRepository()->createQueryBuilder('r');
+        return $this->getRepository()->createQueryBuilder('e')
+			->where('e.site = :routeSite')->setParameter('routeSite', $routeSiteId->getBytes());
     }
 }
