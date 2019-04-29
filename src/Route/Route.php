@@ -61,7 +61,13 @@ class Route
      * @var array
      * @ORM\Column(type="array", nullable=true)
      */
-    protected $previous_names;
+    protected $previous_names_in_site = [];
+
+    /**
+     * @var array
+     * @ORM\Column(type="array", nullable=true)
+     */
+    protected $previous_names_in_group = [];
 
     /**
      * @var array
@@ -73,7 +79,13 @@ class Route
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $name_counter = 1;
+    protected $site_name_counter = 1;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    protected $group_name_counter = 1;
 
     /**
      * @var Language
@@ -109,7 +121,7 @@ class Route
     public function edit(RouteData $data): void
     {
     	if ($this->name !== $data->name) {
-			$this->addPreviousName();
+			$this->archiveName();
 			$this->name = $data->name;
 		}
     }
@@ -122,9 +134,14 @@ class Route
 		return $data;
 	}
 
-    public function getName(): string
+    public function getNameInSite(): string
     {
-        return $this->name . ($this->name_counter !== 1 ?? '-' . $this->name_counter);
+        return $this->name . ($this->site_name_counter !== 1 ?? '-' . $this->site_name_counter);
+    }
+
+    public function getNameInGroup(): string
+    {
+        return $this->name . ($this->group_name_counter !== 1 ?? '-' . $this->group_name_counter);
     }
 
     public function getController(): string
@@ -162,21 +179,27 @@ class Route
 		return $this->module;
 	}
 
-	public function getPreviousNames(): array
+	public function getPreviousNamesInSite(): array
 	{
-		return $this->previous_names === null ? [] : $this->previous_names;
+		return $this->previous_names_in_site;
 	}
 
-	public function addPreviousName(): void
+	public function getPreviousNamesInGroup(): array
 	{
-		if ($this->previous_names === null) {
-			$this->previous_names = [];
+		return $this->previous_names_in_group;
+	}
+
+	public function archiveName(): void
+	{
+		$this->previous_names_in_site[] = $this->getNameInSite();
+		$this->previous_names_in_group[] = $this->getNameInSite();
+
+		if (count($this->previous_names_in_site) > 3) {
+			array_shift($this->previous_names_in_site);
 		}
 
-		$this->previous_names[] = $this->getName();
-
-		if (count($this->previous_names) > 3) {
-			array_shift($this->previous_names);
+		if (count($this->previous_names_in_group) > 3) {
+			array_shift($this->previous_names_in_group);
 		}
 	}
 
@@ -185,18 +208,33 @@ class Route
 		return $this->site;
 	}
 
-	public function getNameCounter(): int
+	public function getSiteNameCounter(): int
 	{
-		return $this->name_counter;
+		return $this->site_name_counter;
 	}
 
-	public function increaseNameCounter(int $increaseBy): void
+	public function increaseSiteNameCounter(int $increaseBy): void
 	{
-		$this->name_counter += $increaseBy;
+		$this->site_name_counter += $increaseBy;
 	}
 
-	public function resetNameCounter(): void
+	public function resetSiteNameCounter(): void
 	{
-		$this->name_counter = 1;
+		$this->site_name_counter = 1;
+	}
+
+	public function getGroupNameCounter(): int
+	{
+		return $this->group_name_counter;
+	}
+
+	public function increaseGroupNameCounter(int $increaseBy): void
+	{
+		$this->group_name_counter += $increaseBy;
+	}
+
+	public function resetGroupNameCounter(): void
+	{
+		$this->group_name_counter = 1;
 	}
 }

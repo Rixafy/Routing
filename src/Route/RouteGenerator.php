@@ -28,24 +28,30 @@ class RouteGenerator
 		$this->routeFactory = $routeFactory;
 	}
 
-	public function generate(RouteData $routeData): Route
+	public function generate(RouteData $data): Route
 	{
 		try {
-			$route = $this->routeFacade->getByTarget($routeData->target, $routeData->group->getId());
+			$route = $this->routeFacade->getByTarget($data->target, $data->group->getId());
 
-			if ($routeData->name !== $route->getName()) {
-				$nameCount = $this->routeFacade->getNameCounter($routeData->name, $routeData->site->getId());
-				$route->increaseNameCounter($nameCount);
+			if ($data->name !== $route->getNameInSite()) {
+				$route->edit($data);
+
+				$siteNameCount = $this->routeFacade->getNameCounter($data->name, $data->site->getId());
+				$route->increaseSiteNameCounter($siteNameCount);
+
+				$groupNameCount = $this->routeFacade->getNameCounter($data->name, $data->site->getId(), $data->group->getId());
+				$route->increaseGroupNameCounter($groupNameCount);
 			}
 
-			$route->edit($routeData);
-
 		} catch (RouteNotFoundException $e) {
-			$route = $this->routeFactory->create($routeData);
+			$route = $this->routeFactory->create($data);
 			$this->entityManager->persist($route);
 
-			$nameCount = $this->routeFacade->getNameCounter($routeData->name, $routeData->site->getId());
-			$route->increaseNameCounter($nameCount);
+			$siteNameCount = $this->routeFacade->getNameCounter($data->name, $data->site->getId());
+			$route->increaseSiteNameCounter($siteNameCount);
+
+			$groupNameCount = $this->routeFacade->getNameCounter($data->name, $data->site->getId(), $data->group->getId());
+			$route->increaseGroupNameCounter($groupNameCount);
 		}
 
 		return $route;

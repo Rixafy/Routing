@@ -95,12 +95,19 @@ class RouteRepository
 			->andWhere('e.group = :routeGroup')->setParameter('routeGroup', $routeGroupId->getBytes());
     }
 
-    public function getNameCounter(string $routeName, UuidInterface $routeSiteId): int
+    public function getNameCounter(string $routeName, UuidInterface $siteId, UuidInterface $groupId = null): int
 	{
-		$result = $this->getQueryBuilderForAll($routeSiteId)
-			->select('MAX(e.name_counter) as result_count')
-			->andWhere('e.name = :name')->setParameter('name', $routeName)
-			->getQuery()
+		if ($groupId !== null) {
+			$result = $this->getQueryBuilderForAllInGroup($groupId, $siteId)
+				->select('MAX(e.group_name_counter) as result_count')
+				->andWhere('e.name = :name')->setParameter('name', $routeName);
+		} else {
+			$result = $this->getQueryBuilderForAll($siteId)
+				->select('MAX(e.group_name_counter) as result_count')
+				->andWhere('e.name = :name')->setParameter('name', $routeName);
+		}
+
+		$result = $result->getQuery()
 			->getArrayResult();
 
 		return (int) $result['result_count'];
