@@ -18,7 +18,6 @@ use Rixafy\Routing\Route\Site\RouteSite;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="route", indexes={
  *     @ORM\Index(columns={"name", "site_id"}),
- *     @ORM\UniqueConstraint(columns={"group_id", "site_id"})
  * })
  */
 class Route
