@@ -16,4 +16,9 @@ class RouteGroupData
 
     /** @var RouteSite */
     public $site;
+
+    public function __construct(RouteSite $routeSite)
+	{
+		$this->site = $routeSite;
+	}
 }
