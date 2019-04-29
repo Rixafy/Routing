@@ -7,6 +7,7 @@ namespace Rixafy\Routing\Route;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Language\Language;
 use Rixafy\Routing\Route\Group\RouteGroup;
+use Rixafy\Routing\Route\Site\RouteSite;
 
 class RouteData
 {
@@ -33,4 +34,7 @@ class RouteData
 
     /** @var RouteGroup */
     public $group;
+
+    /** @var RouteSite */
+    public $site;
 }

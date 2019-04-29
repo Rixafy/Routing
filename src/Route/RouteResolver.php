@@ -38,7 +38,6 @@ class RouteResolver
 			$route = $this->routeFacade->getByTarget($routeData->target, $routeData->group->getId());
 
 			if ($route->getName() !== $routeData->name) {
-				$route->addPreviousName($route->getName());
 				$route->edit($routeData);
 			}
 

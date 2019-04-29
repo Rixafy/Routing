@@ -6,6 +6,7 @@ namespace Rixafy\Routing\Route\Group;
 
 use Doctrine\ORM\Mapping as ORM;
 use Rixafy\DoctrineTraits\UniqueTrait;
+use Rixafy\Routing\Route\Site\RouteSite;
 
 /**
  * @ORM\Entity
@@ -22,14 +23,21 @@ class RouteGroup
      */
     protected $name;
 
-    public function __construct(RouteGroupData $routeGroupData)
+	/**
+	 * @ORM\ManyToOne(targetEntity="\Rixafy\Routing\Route\Site\RouteSite")
+	 * @var RouteSite
+	 */
+	private $site;
+
+    public function __construct(RouteGroupData $site)
     {
-        $this->edit($routeGroupData);
+    	$this->site = $site->site;
+        $this->edit($site);
     }
 
-    public function edit(RouteGroupData $routeGroupData): void
+    public function edit(RouteGroupData $site): void
     {
-        $this->name = $routeGroupData->name;
+        $this->name = $site->name;
     }
 
     public function getName(): string

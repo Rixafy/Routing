@@ -11,6 +11,7 @@ use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
 use Rixafy\Language\Language;
 use Rixafy\Routing\Route\Group\RouteGroup;
+use Rixafy\Routing\Route\Site\RouteSite;
 
 /**
  * @ORM\Entity
@@ -77,21 +78,31 @@ class Route
      */
     private $group;
 
-    public function __construct(RouteData $routeData)
+    /**
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Routing\Route\Site\RouteSite")
+     * @var RouteSite
+     */
+    private $site;
+
+    public function __construct(RouteData $data)
     {
-        $this->controller = $routeData->controller;
-        $this->action = $routeData->action;
-        $this->module = $routeData->module;
-        $this->target = $routeData->target;
-        $this->parameters = $routeData->parameters;
-        $this->language = $routeData->language;
-        $this->group = $routeData->group;
-        $this->edit($routeData);
+        $this->controller = $data->controller;
+        $this->action = $data->action;
+        $this->module = $data->module;
+        $this->target = $data->target;
+        $this->parameters = $data->parameters;
+        $this->language = $data->language;
+        $this->group = $data->group;
+        $this->site = $data->site;
+        $this->edit($data);
     }
 
-    public function edit(RouteData $routeData): void
+    public function edit(RouteData $data): void
     {
-        $this->name = $routeData->name;
+    	if ($this->name !== $data->name) {
+			$this->addPreviousName($this->name);
+		}
+        $this->name = $data->name;
     }
 
     public function getData(): RouteData
@@ -158,5 +169,10 @@ class Route
 		if (count($this->previous_names) > 3) {
 			array_shift($this->previous_names);
 		}
+	}
+
+	public function getSite(): RouteSite
+	{
+		return $this->site;
 	}
 }
