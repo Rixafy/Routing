@@ -18,30 +18,60 @@ class RouteGroup
     use UniqueTrait;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @var string
+     * @ORM\Column(type="string", length=255)
      */
     protected $name;
 
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=127)
+     */
+    protected $prefix;
+
 	/**
-	 * @ORM\ManyToOne(targetEntity="\Rixafy\Routing\Route\Site\RouteSite")
+	 * @var array
+	 * @ORM\Column(type="array", nullable=true)
+	 */
+	protected $previous_prefixes = [];
+
+	/**
 	 * @var RouteSite
+	 * @ORM\ManyToOne(targetEntity="\Rixafy\Routing\Route\Site\RouteSite")
 	 */
 	private $site;
 
-    public function __construct(RouteGroupData $site)
+    public function __construct(RouteGroupData $data)
     {
-    	$this->site = $site->site;
-        $this->edit($site);
+    	$this->site = $data->site;
+        $this->edit($data);
     }
 
-    public function edit(RouteGroupData $site): void
+    public function edit(RouteGroupData $data): void
     {
-        $this->name = $site->name;
+        $this->name = $data->name;
+        if ($data->prefix !== $this->prefix) {
+        	$this->archivePrefix();
+			$this->prefix = $data->prefix;
+		}
     }
 
     public function getName(): string
     {
         return $this->name;
     }
+
+	public function getPrefix(): string
+	{
+		return $this->prefix;
+	}
+
+	public function archivePrefix(): void
+	{
+		$this->previous_prefixes[] = $this->prefix;
+
+		if (count($this->previous_prefixes) > 3) {
+			array_shift($this->previous_prefixes);
+		}
+	}
 }
