@@ -110,6 +110,6 @@ class RouteRepository
 			->setMaxResults(1)
 			->getSingleScalarResult();
 
-		return (int) $result['result_count'];
+		return (int) $result;
 	}
 }
