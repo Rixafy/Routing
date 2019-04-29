@@ -10,8 +10,8 @@ use Rixafy\Routing\Route\Exception\RouteNotFoundException;
 
 class RouteGenerator
 {
-	/** @var RouteFacade */
-	private $routeFacade;
+	/** @var RouteRepository */
+	private $routeRepository;
 
 	/** @var RouteFactory */
 	private $routeFactory;
@@ -20,11 +20,11 @@ class RouteGenerator
 	private $entityManager;
 
 	public function __construct(
-		RouteFacade $routeFacade,
+		RouteRepository $routeRepository,
 		EntityManagerInterface $entityManager,
 		RouteFactory $routeFactory
 	) {
-		$this->routeFacade = $routeFacade;
+		$this->routeRepository = $routeRepository;
 		$this->entityManager = $entityManager;
 		$this->routeFactory = $routeFactory;
 	}
@@ -46,10 +46,10 @@ class RouteGenerator
 		$route = $this->routeFactory->create($data);
 		$this->entityManager->persist($route);
 
-		$siteNameCount = $this->routeFacade->getNameCounter($data->name, $data->site->getId());
+		$siteNameCount = $this->routeRepository->getNameCounter($data->name, $data->site->getId());
 		$route->increaseSiteNameCounter($siteNameCount);
 
-		$groupNameCount = $this->routeFacade->getNameCounter($data->name, $data->site->getId(), $data->group->getId());
+		$groupNameCount = $this->routeRepository->getNameCounter($data->name, $data->site->getId(), $data->group->getId());
 		$route->increaseGroupNameCounter($groupNameCount);
 
 		return $route;
@@ -60,15 +60,15 @@ class RouteGenerator
 	 */
 	public function update(UuidInterface $targetId, string $name): Route
 	{
-		$route = $this->routeFacade->getByTarget($targetId);
+		$route = $this->routeRepository->getByTarget($targetId);
 
 		if ($name !== $route->getName()) {
 			$route->changeName($name);
 
-			$siteNameCount = $this->routeFacade->getNameCounter($name, $route->getSite()->getId());
+			$siteNameCount = $this->routeRepository->getNameCounter($name, $route->getSite()->getId());
 			$route->increaseSiteNameCounter($siteNameCount);
 
-			$groupNameCount = $this->routeFacade->getNameCounter($name, $route->getSite()->getId(), $route->getGroup()->getId());
+			$groupNameCount = $this->routeRepository->getNameCounter($name, $route->getSite()->getId(), $route->getGroup()->getId());
 			$route->increaseGroupNameCounter($groupNameCount);
 		}
 
