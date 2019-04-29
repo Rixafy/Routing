@@ -60,7 +60,7 @@ class Route
     protected $previous_names;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      * @var array
      */
     protected $parameters;

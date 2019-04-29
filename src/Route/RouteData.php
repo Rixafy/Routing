@@ -26,7 +26,7 @@ class RouteData
     public $target;
 
     /** @var array */
-    public $parameters;
+    public $parameters = [];
 
     /** @var Language */
     public $language;
