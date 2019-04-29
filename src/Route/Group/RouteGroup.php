@@ -74,4 +74,9 @@ class RouteGroup
 			array_shift($this->previous_prefixes);
 		}
 	}
+
+	public function getSite(): RouteSite
+	{
+		return $this->site;
+	}
 }
