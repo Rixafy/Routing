@@ -124,7 +124,7 @@ class Route
 
     public function getName(): string
     {
-        return $this->name . ($this->name_counter !== 0 ?? '-' . $this->name_counter);
+        return $this->name . ($this->name_counter !== 1 ?? '-' . $this->name_counter);
     }
 
     public function getController(): string
@@ -197,6 +197,6 @@ class Route
 
 	public function resetNameCounter(): void
 	{
-		$this->name_counter = 0;
+		$this->name_counter = 1;
 	}
 }
