@@ -107,7 +107,8 @@ class RouteRepository
 		}
 
 		$result = $result->getQuery()
-			->getArrayResult();
+			->setMaxResults(1)
+			->getSingleScalarResult();
 
 		return (int) $result['result_count'];
 	}
