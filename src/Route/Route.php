@@ -207,6 +207,10 @@ class Route
 
 	public function archiveName(): void
 	{
+		if ($this->name === null) {
+			return;
+		}
+
 		$this->previous_names_in_site[] = $this->getNameInSite();
 		$this->previous_names_in_group[] = $this->getNameInSite();
 
