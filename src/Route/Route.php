@@ -18,6 +18,9 @@ use Rixafy\Routing\Route\Site\RouteSite;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="route", indexes={
  *     @ORM\Index(columns={"name", "site_id"}),
+ *     @ORM\Index(columns={"target"})
+ * }, uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"target", "language_id"})
  * })
  */
 class Route
@@ -50,7 +53,7 @@ class Route
 
     /**
      * @var UuidInterface
-     * @ORM\Column(type="uuid_binary", unique=true)
+     * @ORM\Column(type="uuid_binary")
      */
     protected $target;
 
