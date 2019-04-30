@@ -44,6 +44,9 @@ class RouteFacade
         return $route;
     }
 
+	/**
+	 * @deprecated
+	 */
     public function generate(RouteData $routeData): Route
 	{
 		$route = $this->routeGenerator->generate($routeData);

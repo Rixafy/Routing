@@ -29,6 +29,9 @@ class RouteGenerator
 		$this->routeFactory = $routeFactory;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function generate(RouteData $data): Route
 	{
 		try {
@@ -41,6 +44,9 @@ class RouteGenerator
 		return $route;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function create(RouteData $data): Route
 	{
 		$route = $this->routeFactory->create($data);
@@ -57,6 +63,7 @@ class RouteGenerator
 
 	/**
 	 * @throws RouteNotFoundException
+	 * @deprecated
 	 */
 	public function update(UuidInterface $targetId, string $name): Route
 	{
