@@ -94,6 +94,9 @@ class RouteRepository
 			->andWhere('e.group = :routeGroup')->setParameter('routeGroup', $routeGroupId->getBytes());
     }
 
+	/**
+	 * @deprecated
+	 */
     public function getNameCounter(string $routeName, UuidInterface $siteId, UuidInterface $groupId = null): int
 	{
 		if ($groupId !== null) {
