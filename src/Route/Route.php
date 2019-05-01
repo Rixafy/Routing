@@ -137,6 +137,7 @@ class Route
 			$this->archiveName();
 			$this->name = $newName;
 			$this->name_changed_at = new DateTime();
+			$this->site->update();
 		}
 	}
 

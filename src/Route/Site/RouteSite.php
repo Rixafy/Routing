@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Rixafy\Routing\Route\Site;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Rixafy\DoctrineTraits\DateTimeTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
 
 /**
@@ -15,6 +17,7 @@ use Rixafy\DoctrineTraits\UniqueTrait;
 class RouteSite
 {
 	use UniqueTrait;
+	use DateTimeTrait;
 
 	/**
 	 * @ORM\Column(type="string", length=255)
@@ -35,5 +38,10 @@ class RouteSite
 	public function getDomainHost(): string
 	{
 		return $this->domain_host;
+	}
+
+	public function update(): void
+	{
+		$this->updated_at = new DateTime();
 	}
 }
