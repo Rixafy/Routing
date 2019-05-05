@@ -19,19 +19,14 @@ class RouteFacade
     /** @var RouteFactory */
     private $routeFactory;
 
-    /** @var RouteGenerator */
-    private $routeGenerator;
-
     public function __construct(
 		EntityManagerInterface $entityManager,
 		RouteRepository $routeRepository,
-		RouteFactory $routeFactory,
-		RouteGenerator $routeGenerator
+		RouteFactory $routeFactory
 	) {
         $this->entityManager = $entityManager;
         $this->routeRepository = $routeRepository;
         $this->routeFactory = $routeFactory;
-		$this->routeGenerator = $routeGenerator;
 	}
 
     public function create(RouteData $routeData): Route
@@ -43,18 +38,6 @@ class RouteFacade
 
         return $route;
     }
-
-	/**
-	 * @deprecated
-	 */
-    public function generate(RouteData $routeData): Route
-	{
-		$route = $this->routeGenerator->generate($routeData);
-
-		$this->entityManager->flush();
-
-		return $route;
-	}
 
     /**
      * @throws RouteNotFoundException
