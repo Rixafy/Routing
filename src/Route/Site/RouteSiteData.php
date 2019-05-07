@@ -8,4 +8,9 @@ class RouteSiteData
 {
 	/** @var string */
 	public $domainHost;
+
+	public function __construct(string $domainHost)
+	{
+		$this->domainHost = $domainHost;
+	}
 }
