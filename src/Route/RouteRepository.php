@@ -93,26 +93,4 @@ class RouteRepository
         return $this->getQueryBuilderForAll($routeSiteId)
 			->andWhere('e.group = :routeGroup')->setParameter('routeGroup', $routeGroupId->getBytes());
     }
-
-	/**
-	 * @deprecated
-	 */
-    public function getNameCounter(string $routeName, UuidInterface $siteId, UuidInterface $groupId = null): int
-	{
-		if ($groupId !== null) {
-			$result = $this->getQueryBuilderForAllInGroup($groupId, $siteId)
-				->select('MAX(e.group_name_counter) as result_count')
-				->andWhere('e.name = :name')->setParameter('name', $routeName);
-		} else {
-			$result = $this->getQueryBuilderForAll($siteId)
-				->select('MAX(e.group_name_counter) as result_count')
-				->andWhere('e.name = :name')->setParameter('name', $routeName);
-		}
-
-		$result = $result->getQuery()
-			->setMaxResults(1)
-			->getSingleScalarResult();
-
-		return (int) $result;
-	}
 }
