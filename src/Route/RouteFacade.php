@@ -86,12 +86,4 @@ class RouteFacade
     {
         return $this->routeRepository->getByTarget($targetId);
     }
-
-	/**
-	 * @deprecated
-	 */
-    public function getNameCounter(string $routeName, UuidInterface $siteId, UuidInterface $groupId = null): int
-    {
-        return $this->routeRepository->getNameCounter($routeName, $siteId, $groupId);
-    }
 }
