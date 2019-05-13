@@ -61,13 +61,13 @@ class Route
      * @var array
      * @ORM\Column(type="array", nullable=true)
      */
-    protected $previous_names_in_site = [];
+    protected $previousNamesInSite = [];
 
     /**
      * @var array
      * @ORM\Column(type="array", nullable=true)
      */
-    protected $previous_names_in_group = [];
+    protected $previousNamesInGroup = [];
 
     /**
      * @var array
@@ -79,13 +79,13 @@ class Route
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $site_name_counter = 1;
+    protected $siteNameCounter = 1;
 
     /**
      * @var int
      * @ORM\Column(type="integer")
      */
-    protected $group_name_counter = 1;
+    protected $groupNameCounter = 1;
 
     /**
      * @var Language
@@ -109,7 +109,7 @@ class Route
 	 * @ORM\Column(type="datetime")
 	 * @var DateTime
 	 */
-	private $name_changed_at;
+	private $nameChangedAt;
 
 	use DateTimeTrait;
 
@@ -136,7 +136,7 @@ class Route
 		if ($this->name !== $newName) {
 			$this->archiveName();
 			$this->name = $newName;
-			$this->name_changed_at = new DateTime();
+			$this->nameChangedAt = new DateTime();
 			$this->site->update();
 		}
 	}
@@ -156,12 +156,12 @@ class Route
 
     public function getNameInSite(): string
     {
-        return $this->name . ($this->site_name_counter !== 1 ? '-' . $this->site_name_counter : '');
+        return $this->name . ($this->siteNameCounter !== 1 ? '-' . $this->siteNameCounter : '');
     }
 
     public function getNameInGroup(): string
     {
-        return $this->name . ($this->group_name_counter !== 1 ? '-' . $this->group_name_counter : '');
+        return $this->name . ($this->groupNameCounter !== 1 ? '-' . $this->groupNameCounter : '');
     }
 
     public function getController(): string
@@ -201,12 +201,12 @@ class Route
 
 	public function getPreviousNamesInSite(): array
 	{
-		return $this->previous_names_in_site;
+		return $this->previousNamesInSite;
 	}
 
 	public function getPreviousNamesInGroup(): array
 	{
-		return $this->previous_names_in_group;
+		return $this->previousNamesInGroup;
 	}
 
 	public function archiveName(): void
@@ -215,15 +215,15 @@ class Route
 			return;
 		}
 
-		$this->previous_names_in_site[] = $this->getNameInSite();
-		$this->previous_names_in_group[] = $this->getNameInSite();
+		$this->previousNamesInSite[] = $this->getNameInSite();
+		$this->previousNamesInGroup[] = $this->getNameInSite();
 
-		if (count($this->previous_names_in_site) > 3) {
-			array_shift($this->previous_names_in_site);
+		if (count($this->previousNamesInSite) > 3) {
+			array_shift($this->previousNamesInSite);
 		}
 
-		if (count($this->previous_names_in_group) > 3) {
-			array_shift($this->previous_names_in_group);
+		if (count($this->previousNamesInGroup) > 3) {
+			array_shift($this->previousNamesInGroup);
 		}
 	}
 
@@ -234,31 +234,31 @@ class Route
 
 	public function getSiteNameCounter(): int
 	{
-		return $this->site_name_counter;
+		return $this->siteNameCounter;
 	}
 
 	public function increaseSiteNameCounter(int $increaseBy): void
 	{
-		$this->site_name_counter += $increaseBy;
+		$this->siteNameCounter += $increaseBy;
 	}
 
 	public function resetSiteNameCounter(): void
 	{
-		$this->site_name_counter = 1;
+		$this->siteNameCounter = 1;
 	}
 
 	public function getGroupNameCounter(): int
 	{
-		return $this->group_name_counter;
+		return $this->groupNameCounter;
 	}
 
 	public function increaseGroupNameCounter(int $increaseBy): void
 	{
-		$this->group_name_counter += $increaseBy;
+		$this->groupNameCounter += $increaseBy;
 	}
 
 	public function resetGroupNameCounter(): void
 	{
-		$this->group_name_counter = 1;
+		$this->groupNameCounter = 1;
 	}
 }

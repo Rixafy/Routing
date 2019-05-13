@@ -33,7 +33,7 @@ class RouteGroup
 	 * @var array
 	 * @ORM\Column(type="array", nullable=true)
 	 */
-	protected $previous_prefixes = [];
+	protected $previousPrefixes = [];
 
 	/**
 	 * @var RouteSite
@@ -68,10 +68,10 @@ class RouteGroup
 
 	public function archivePrefix(): void
 	{
-		$this->previous_prefixes[] = $this->prefix;
+		$this->previousPrefixes[] = $this->prefix;
 
-		if (count($this->previous_prefixes) > 3) {
-			array_shift($this->previous_prefixes);
+		if (count($this->previousPrefixes) > 3) {
+			array_shift($this->previousPrefixes);
 		}
 	}
 

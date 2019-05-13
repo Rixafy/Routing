@@ -53,7 +53,7 @@ class RouteSiteRepository
 	{
 		/** @var RouteSite $routeSite */
 		$routeSite = $this->getRepository()->findOneBy([
-			'domain_host' => $domainHost
+			'domainHost' => $domainHost
 		]);
 
 		if ($routeSite === null) {

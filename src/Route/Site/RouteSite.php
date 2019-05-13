@@ -23,7 +23,7 @@ class RouteSite
 	 * @ORM\Column(type="string", length=255)
 	 * @var string
 	 */
-	protected $domain_host;
+	protected $domainHost;
 
 	public function __construct(RouteSiteData $routeSiteData)
 	{
@@ -32,12 +32,12 @@ class RouteSite
 
 	public function edit(RouteSiteData $routeSiteData): void
 	{
-		$this->domain_host = $routeSiteData->domainHost;
+		$this->domainHost = $routeSiteData->domainHost;
 	}
 
 	public function getDomainHost(): string
 	{
-		return $this->domain_host;
+		return $this->domainHost;
 	}
 
 	public function update(): void
