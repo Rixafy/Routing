@@ -137,6 +137,8 @@ class Route
 			$this->archiveName();
 			$this->name = $newName;
 			$this->nameChangedAt = new DateTime();
+			$this->resetGroupNameCounter();
+			$this->resetSiteNameCounter();
 			$this->site->update();
 		}
 	}
