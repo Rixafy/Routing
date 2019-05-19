@@ -74,8 +74,8 @@ class RouteGroupFacade
     /**
      * @throws RouteGroupNotFoundException
      */
-    public function getByName(string $name): RouteGroup
+    public function getByName(string $name, UuidInterface $routeSiteId): RouteGroup
     {
-        return $this->routeGroupRepository->getByName($name);
+        return $this->routeGroupRepository->getByName($name, $routeSiteId);
     }
 }
