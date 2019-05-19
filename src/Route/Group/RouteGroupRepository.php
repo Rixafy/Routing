@@ -44,15 +44,16 @@ class RouteGroupRepository
     /**
      * @throws RouteGroupNotFoundException
      */
-    public function getByName(string $name): RouteGroup
+    public function getByName(string $name, UuidInterface $siteId): RouteGroup
     {
         /** @var RouteGroup $routeGroup */
         $routeGroup = $this->getRepository()->findOneBy([
-            'name' => $name
+            'name' => $name,
+			'site' => $siteId
         ]);
 
         if ($routeGroup === null) {
-            throw RouteGroupNotFoundException::byName($name);
+            throw RouteGroupNotFoundException::byNameAndSiteId($name, $siteId);
         }
 
         return $routeGroup;

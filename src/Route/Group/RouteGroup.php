@@ -11,7 +11,9 @@ use Rixafy\Routing\Route\Site\RouteSite;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="route_group")
+ * @ORM\Table(name="route_group", uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"name", "site_id"})
+ * })
  */
 class RouteGroup
 {
@@ -19,7 +21,7 @@ class RouteGroup
 
     /**
      * @var string
-     * @ORM\Column(type="string", nullable=true, unique=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $name;
 

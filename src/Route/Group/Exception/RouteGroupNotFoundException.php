@@ -14,8 +14,8 @@ class RouteGroupNotFoundException extends Exception
 		return new self('RouteGroup with id "' . $id . '" not found.');
 	}
 
-	public static function byName(string $name): self
+	public static function byNameAndSiteId(string $name, UuidInterface $siteId): self
 	{
-		return new self('RouteGroup with name "' . $name . '" not found.');
+		return new self('RouteGroup with name "' . $name . '" and siteId "' . $siteId . '" not found.');
 	}
 }
