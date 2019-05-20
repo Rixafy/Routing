@@ -128,7 +128,9 @@ class Route
 
     public function edit(RouteData $data): void
     {
-    	$this->changeName($data->name);
+    	if ($data->name !== null) {
+			$this->changeName($data->name);
+		}
     }
 
     public function changeName(string $newName): void
