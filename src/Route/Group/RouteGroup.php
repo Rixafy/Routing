@@ -12,24 +12,24 @@ use Rixafy\Routing\Route\Site\RouteSite;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="route_group", uniqueConstraints={
- *     @ORM\UniqueConstraint(columns={"name", "site_id"})
+ *	 @ORM\UniqueConstraint(columns={"name", "site_id"})
  * })
  */
 class RouteGroup
 {
-    use UniqueTrait;
+	use UniqueTrait;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $name;
+	/**
+	 * @var string
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $name;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=127)
-     */
-    protected $prefix;
+	/**
+	 * @var string
+	 * @ORM\Column(type="string", length=127)
+	 */
+	protected $prefix;
 
 	/**
 	 * @var array
@@ -43,25 +43,25 @@ class RouteGroup
 	 */
 	private $site;
 
-    public function __construct(RouteGroupData $data)
-    {
-    	$this->site = $data->site;
-        $this->edit($data);
-    }
+	public function __construct(RouteGroupData $data)
+	{
+		$this->site = $data->site;
+		$this->edit($data);
+	}
 
-    public function edit(RouteGroupData $data): void
-    {
-        $this->name = $data->name;
-        if ($data->prefix !== $this->prefix) {
-        	$this->archivePrefix();
+	public function edit(RouteGroupData $data): void
+	{
+		$this->name = $data->name;
+		if ($data->prefix !== $this->prefix) {
+			$this->archivePrefix();
 			$this->prefix = $data->prefix;
 		}
-    }
+	}
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
+	public function getName(): string
+	{
+		return $this->name;
+	}
 
 	public function getPrefix(): string
 	{

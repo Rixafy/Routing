@@ -8,16 +8,16 @@ use Rixafy\Routing\Route\Site\RouteSite;
 
 class RouteGroupData
 {
-    /** @var string */
-    public $name;
+	/** @var string */
+	public $name;
 
-    /** @var string */
-    public $prefix = '/';
+	/** @var string */
+	public $prefix = '/';
 
-    /** @var RouteSite */
-    public $site;
+	/** @var RouteSite */
+	public $site;
 
-    public function __construct(RouteSite $routeSite)
+	public function __construct(RouteSite $routeSite)
 	{
 		$this->site = $routeSite;
 	}

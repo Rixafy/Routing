@@ -13,60 +13,60 @@ use Rixafy\Routing\Route\Group\Exception\RouteGroupNotFoundException;
 
 class RouteGroupRepository
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+	/** @var EntityManagerInterface */
+	private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
+	public function __construct(EntityManagerInterface $entityManager)
+	{
+		$this->entityManager = $entityManager;
+	}
 
 	/**
 	 * @return EntityRepository|ObjectRepository
 	 */
-    public function getRepository()
-    {
-        return $this->entityManager->getRepository(RouteGroup::class);
-    }
+	public function getRepository()
+	{
+		return $this->entityManager->getRepository(RouteGroup::class);
+	}
 
-    /**
-     * @throws RouteGroupNotFoundException
-     */
-    public function get(UuidInterface $id): RouteGroup
-    {
-        /** @var RouteGroup $routeGroup */
-        $routeGroup = $this->getRepository()->findOneBy([
-            'id' => $id
-        ]);
+	/**
+	 * @throws RouteGroupNotFoundException
+	 */
+	public function get(UuidInterface $id): RouteGroup
+	{
+		/** @var RouteGroup $routeGroup */
+		$routeGroup = $this->getRepository()->findOneBy([
+			'id' => $id
+		]);
 
-        if ($routeGroup === null) {
-            throw RouteGroupNotFoundException::byId($id);
-        }
+		if ($routeGroup === null) {
+			throw RouteGroupNotFoundException::byId($id);
+		}
 
-        return $routeGroup;
-    }
+		return $routeGroup;
+	}
 
-    /**
-     * @throws RouteGroupNotFoundException
-     */
-    public function getByName(string $name, UuidInterface $siteId): RouteGroup
-    {
-        /** @var RouteGroup $routeGroup */
-        $routeGroup = $this->getRepository()->findOneBy([
-            'name' => $name,
+	/**
+	 * @throws RouteGroupNotFoundException
+	 */
+	public function getByName(string $name, UuidInterface $siteId): RouteGroup
+	{
+		/** @var RouteGroup $routeGroup */
+		$routeGroup = $this->getRepository()->findOneBy([
+			'name' => $name,
 			'site' => $siteId
-        ]);
+		]);
 
-        if ($routeGroup === null) {
-            throw RouteGroupNotFoundException::byNameAndSiteId($name, $siteId);
-        }
+		if ($routeGroup === null) {
+			throw RouteGroupNotFoundException::byNameAndSiteId($name, $siteId);
+		}
 
-        return $routeGroup;
-    }
+		return $routeGroup;
+	}
 
-    public function getQueryBuilderForAll(UuidInterface $routeSiteId): QueryBuilder
-    {
-        return $this->getRepository()->createQueryBuilder('e')
+	public function getQueryBuilderForAll(UuidInterface $routeSiteId): QueryBuilder
+	{
+		return $this->getRepository()->createQueryBuilder('e')
 			->where('e.site = :routeSite')->setParameter('routeSite', $routeSiteId->getBytes());
-    }
+	}
 }
