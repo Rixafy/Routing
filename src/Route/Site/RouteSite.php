@@ -42,6 +42,6 @@ class RouteSite
 
 	public function update(): void
 	{
-		$this->updated_at = new DateTime();
+		$this->updatedAt = new DateTime();
 	}
 }
