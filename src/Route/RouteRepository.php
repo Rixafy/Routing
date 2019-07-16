@@ -50,12 +50,47 @@ class RouteRepository
 	/**
 	 * @throws RouteNotFoundException
 	 */
-	public function getByName(string $name, UuidInterface $routeGroupId): Route
+	public function getByName(string $name): Route
+	{
+		/** @var Route $route */
+		$route = $this->getRepository()->findOneBy([
+			'name' => $name
+		]);
+
+		if ($route === null) {
+			throw RouteNotFoundException::byName($name);
+		}
+
+		return $route;
+	}
+
+	/**
+	 * @throws RouteNotFoundException
+	 */
+	public function getByNameAndRouteGroup(string $name, UuidInterface $routeGroupId): Route
 	{
 		/** @var Route $route */
 		$route = $this->getRepository()->findOneBy([
 			'name' => $name,
 			'group' => $routeGroupId
+		]);
+
+		if ($route === null) {
+			throw RouteNotFoundException::byName($name);
+		}
+
+		return $route;
+	}
+
+	/**
+	 * @throws RouteNotFoundException
+	 */
+	public function getByNameAndRouteSite(string $name, UuidInterface $routeSiteId): Route
+	{
+		/** @var Route $route */
+		$route = $this->getRepository()->findOneBy([
+			'name' => $name,
+			'site' => $routeSiteId
 		]);
 
 		if ($route === null) {

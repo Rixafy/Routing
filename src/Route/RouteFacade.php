@@ -74,9 +74,25 @@ class RouteFacade
 	/**
 	 * @throws RouteNotFoundException
 	 */
-	public function getByName(string $name, UuidInterface $routeGroupId): Route
+	public function getByName(string $name): Route
 	{
-		return $this->routeRepository->getByName($name, $routeGroupId);
+		return $this->routeRepository->getByName($name);
+	}
+
+	/**
+	 * @throws RouteNotFoundException
+	 */
+	public function getByNameAndRouteGroup(string $name, UuidInterface $routeGroupId): Route
+	{
+		return $this->routeRepository->getByNameAndRouteGroup($name, $routeGroupId);
+	}
+
+	/**
+	 * @throws RouteNotFoundException
+	 */
+	public function getByNameAndRouteSite(string $name, UuidInterface $routeGroupId): Route
+	{
+		return $this->routeRepository->getByNameAndRouteSite($name, $routeGroupId);
 	}
 
 	/**
